@@ -2,24 +2,8 @@ var mc = require('minecraft-protocol')
   , EventEmitter = require('events').EventEmitter
   , util = require('util')
   , path = require('path')
-  , plugins = {
-      bed: require('./lib/plugins/bed'),
-      block_actions: require('./lib/plugins/block_actions'),
-      blocks: require('./lib/plugins/blocks'),
-      chat: require('./lib/plugins/chat'),
-      digging: require('./lib/plugins/digging'),
-      entities: require('./lib/plugins/entities'),
-      experience: require('./lib/plugins/experience'),
-      game: require('./lib/plugins/game'),
-      health: require('./lib/plugins/health'),
-      inventory: require('./lib/plugins/inventory'),
-      kick: require('./lib/plugins/kick'),
-      physics: require('./lib/plugins/physics'),
-      rain: require('./lib/plugins/rain'),
-      settings: require('./lib/plugins/settings'),
-      spawn_point: require('./lib/plugins/spawn_point'),
-      time: require('./lib/plugins/time')
-    };
+  , requireIndex = require('requireindex')
+  , plugins = requireIndex(path.join(__dirname, 'lib', 'plugins'))
 
 module.exports = {
   vec3: require('vec3'),
