@@ -99,24 +99,18 @@ var decodePacket = function(data) {
 
 Bot.prototype.connect = function(options) {
   var self = this;
-
-  var ws = websocket_stream(options.url, {type: Uint8Array});
-  self.client = this;
-  self.username = options.username;
-  ws.write(self.username);
-  ws.on('data', function(data) {
-    var packet = decodePacket(data);
-
-    // TODO
-    console.log('packet=',packet);
+  self.client = mc.createClient(options);
+  self.username = self.client.username;
+  self.client.on('session', function() {
+    self.username = self.client.username;
   });
-  ws.on('connect', function() {
+  self.client.on('connect', function() {
     self.emit('connect');
   });
-  ws.on('error', function(err) {
+  self.client.on('error', function(err) {
     self.emit('error', err);
   });
-  ws.on('close', function() {
+  self.client.on('end', function() {
     self.emit('end');
   });
   for (var pluginName in plugins) {
